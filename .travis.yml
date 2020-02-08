@@ -2,4 +2,4 @@ language: java
 services:
 - mysql
 username: root
-password:
+password: ""
