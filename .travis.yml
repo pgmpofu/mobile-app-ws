@@ -2,3 +2,5 @@ language: java
 services:
 - mysql
 sudo: true
+before_script:
+  - mysql -e 'create database photo_app;'
