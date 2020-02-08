@@ -1,5 +1,5 @@
 language: java
-os: osx
+dist: xenial
 services:
 - mysql
 sudo: true
