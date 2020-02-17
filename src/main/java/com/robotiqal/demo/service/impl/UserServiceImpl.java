@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.robotiqal.demo.io.entity.User;
-import com.robotiqal.demo.repository.UserRepository;
+import com.robotiqal.demo.io.repository.UserRepository;
 import com.robotiqal.demo.service.UserService;
 import com.robotiqal.demo.shared.dto.UserDTO;
 import com.robotiqal.demo.shared.utils.RandomStringGenerator;
@@ -45,6 +45,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public UserDTO getUser(String email) {
+		User user = userRepository.findUserByEmail(email);
+		if (user == null) {
+			throw new UsernameNotFoundException("Cound not find user by email");
+		}
+		UserDTO storedUserDTO = new UserDTO();
+		BeanUtils.copyProperties(user, storedUserDTO);
+		return storedUserDTO;
+	}
+
+	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findUserByEmail(username);
 		if (user == null) {
@@ -52,8 +63,7 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getEncryptedPassword(),
-				new ArrayList<
-				>());
+				new ArrayList<>());
 	}
 
 }
