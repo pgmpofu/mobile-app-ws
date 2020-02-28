@@ -10,8 +10,6 @@ public class RandomStringGenerator {
 	
 	private final Random RANDOM = new SecureRandom();
 	private final String ALPHABET = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-	private final int ITERATIONS = 10000;
-	private final int KEY_LENGTH = 256;
 	
 	public String generateUserId(int length) {
 		return generateRandomString(length);	

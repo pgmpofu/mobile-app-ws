@@ -2,8 +2,10 @@ package com.robotiqal.demo.ui.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +24,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping
-	public String getUser() {
-		return "getUser() was called";
+	@GetMapping(path="/{userId}",
+			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public UserRest getUser(@PathVariable String userId) {
+		UserRest userRest = new UserRest();
+		UserDTO  userDTO =  userService.getUserById(userId);
+		BeanUtils.copyProperties(userDTO, userRest);
+		return userRest;
 	}
 
 	@PostMapping

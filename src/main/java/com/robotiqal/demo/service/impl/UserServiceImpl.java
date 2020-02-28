@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO getUser(String email) {
-		User user = userRepository.findUserByEmail(email);
+		User user = userRepository.findByEmail(email);
 		if (user == null) {
 			throw new UsernameNotFoundException("Cound not find user by email");
 		}
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findUserByEmail(username);
+		User user = userRepository.findByEmail(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("Cound not find user by email");
 		}
@@ -65,5 +65,16 @@ public class UserServiceImpl implements UserService {
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getEncryptedPassword(),
 				new ArrayList<>());
 	}
+
+	@Override
+	public UserDTO getUserById(String userId) throws UsernameNotFoundException {
+			UserDTO userDTO = new UserDTO();
+			User user = userRepository.findByUserId(userId);
+			if (user == null) {
+				throw new UsernameNotFoundException("Cound not find user by email");
+			}
+			BeanUtils.copyProperties(user, userDTO);
+			return userDTO;
+		}
 
 }
